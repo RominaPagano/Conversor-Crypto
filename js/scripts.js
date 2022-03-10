@@ -81,7 +81,29 @@ $('#tabla').DataTable({
 });
 
              
-        
+  //Agregando la API para la TABLA
+
+const apiCrypto = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1"
+//DOM
+const container = document.getElementById ("tbody")
+
+//FETCH
+
+fetch(apiCrypto)
+.then (resultado => resultado.json())
+.then (respuesta =>{
+        console.log(respuesta);
+
+        for (let coin of respuesta){
+
+            const element = document.createElement("tr");
+            element.innerHTML =`
+                            <td>${coin.market_cap_rank}</td>
+                            <td><img src =${coin.image} width=25> </img>${coin.name}</td>
+                            <td>${coin.current_price}</td>`
+            container.appendChild (element);
+        }
+});      
 
         
 
