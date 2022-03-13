@@ -29,8 +29,9 @@ fetch(apiCrypto)
             const element = document.createElement("option");
             element.innerHTML =`${tipo.symbol}`
             tipoCrypto.appendChild (element);
-        }        
-});   
+        }  
+    })
+.catch(err => console.log("Error en la api"));   
 
 
 
@@ -57,9 +58,6 @@ form.onsubmit = function(e){
     
 }  
 
-
-
-
 //MODO OSCURO
 const btnSwitch = document.querySelector ("#switch");
 
@@ -68,8 +66,6 @@ btnSwitch.addEventListener ("click", () =>{
 
    btnSwitch.classList.toggle("active");
 });
-
-
 
 
 //DATATABLES-TABLA
@@ -102,6 +98,9 @@ let tabla = $('#tabla').DataTable({
        }
    }
 });
+
+
+
 
      
 
