@@ -8,42 +8,45 @@ class Moneda{
         this.nombre = moneda.name; 
         this.precio = moneda.current_price;
     }
-    
+   
     obtenerResultado(){
         const entrada = document.getElementById("entrada");
         const conversion = entrada.value / this.precio
-        return `${conversion} ${this.nombre} `
+        return `${conversion} ${this.nombre}`
     };
     
 };
 
 
 //FETCH- TRAYENDO LA API
-var variableGlobal; 
+
 fetch(apiCrypto)
 .then (resultado => resultado.json())
 .then (respuesta =>{
         variableGlobal = respuesta;
-        
         for (let tipo of respuesta){
             const element = document.createElement("option");
-            element.innerHTML =`${tipo.symbol}`
+            element.innerHTML =`${tipo.symbol }`
             tipoCrypto.appendChild (element);
         }  
     })
 .catch(err => console.log("Error en la api"));   
 
+var variableGlobal; 
 
 
 //SE EJECUTA CADA VEZ QUE INGRESO UN VALOR EN EL INPUT.
 const salida = document.getElementById ("contenedorResultado");
-document.getElementById ("entrada").onkeydown = function(e){
+const entrada = document.getElementById ("entrada")
+
+entrada.onkeydown = function(e){
     salida.innerHTML = "";
 }     
 
 //SE EJECUTA CUANDO INGRESO EL BOTON CAMBIAR.
 let form = document.getElementById ("form");
 let tipoCrypto = document.getElementById("tipoCrypto");
+
 
 form.onsubmit = function(e){
     e.preventDefault();
@@ -52,20 +55,49 @@ form.onsubmit = function(e){
         (x => x.symbol === tipoCrypto.value);
     let infoMoneda = new Moneda (moneda);
     const elemento = document.createElement("p");
-        elemento.innerHTML= infoMoneda.obtenerResultado();
-        elemento.classList.add("dark");
-        salida.appendChild(elemento);
-    
-}  
+    elemento.innerHTML= infoMoneda.obtenerResultado();
+    elemento.classList.add("dark");
+    salida.appendChild(elemento);
+ }  
+
+
+//STORAGE 
+let entradaStorage = localStorage.getItem("entradaStorage");
+
+entrada.onchange = (e) => {
+    localStorage.setItem("entradaStorage", entrada.value);
+}
+
+const completarInfo = () => {
+    entrada.value = entradaStorage;
+}
+completarInfo();
+
+
 
 //MODO OSCURO
 const btnSwitch = document.querySelector ("#switch");
 
 btnSwitch.addEventListener ("click", () =>{
    document.body.classList.toggle ("dark");
-
    btnSwitch.classList.toggle("active");
+
+   //Storage
+   if (document.body.classList.contains ("dark")){
+       localStorage.setItem("modoOscuro", "true");
+   } else {
+    localStorage.setItem("modoOscuro", "false");
+   }
 });
+
+if(localStorage.getItem ("modoOscuro")=== "true"){
+    document.body.classList.add ("dark");
+    btnSwitch.classList.add("active");
+
+} else {
+    document.body.classList.remove ("dark");
+    btnSwitch.classList.remove("active");
+}
 
 
 //DATATABLES-TABLA
@@ -81,7 +113,7 @@ let tabla = $('#tabla').DataTable({
    "columns":[
        {"data": "market_cap_rank"},
        {"data": "img",         
-       "render" : function ( data, type, row )  {return '<img width= 25 src = "'+row.image+'">'+row.name}},
+       "render" : function ( data, type, row )  {return '<img width= 20 src = "'+row.image+'">'+row.name}},
        {"data": "current_price"}
    ],
 
@@ -98,12 +130,3 @@ let tabla = $('#tabla').DataTable({
        }
    }
 });
-
-
-
-
-     
-
-
-
-
