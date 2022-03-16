@@ -11,8 +11,8 @@ class Moneda{
    
     obtenerResultado(){
         const entrada = document.getElementById("entrada");
-        const conversion = entrada.value / this.precio
-        return `${conversion} ${this.nombre}`
+        const conversion = entrada.value / this.precio;
+        return `${conversion} ${this.nombre}`;
     };
     
 };
@@ -37,7 +37,8 @@ var variableGlobal;
 
 //SE EJECUTA CADA VEZ QUE INGRESO UN VALOR EN EL INPUT.
 const salida = document.getElementById ("contenedorResultado");
-const entrada = document.getElementById ("entrada")
+const entrada = document.getElementById ("entrada");
+
 
 entrada.onkeydown = function(e){
     salida.innerHTML = "";
@@ -63,10 +64,18 @@ form.onsubmit = function(e){
 
 //STORAGE 
 let entradaStorage = localStorage.getItem("entradaStorage");
+let tipoCryptoStorage = localStorage.getItem("tipoCryptoStorage");
 
+//guarda la cantidad a cambiar
 entrada.onchange = (e) => {
-    localStorage.setItem("entradaStorage", entrada.value);
+    localStorage.setItem("entradaStorage", entrada.value);    
 }
+
+//guarda la seleccion de crypto a cambiar
+tipoCrypto.onchange = (e) => {
+    localStorage.setItem ("tipoCryptoStorage", tipoCrypto.value);
+}
+
 
 const completarInfo = () => {
     entrada.value = entradaStorage;
